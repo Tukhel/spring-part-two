@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.geekbrains.controllers.repr.ProductRepr;
+import ru.geekbrains.repo.BrandRepository;
 import ru.geekbrains.repo.CategoryRepository;
 import ru.geekbrains.service.ProductService;
 
@@ -24,10 +25,14 @@ public class ProductsController {
 
     private final CategoryRepository categoryRepository;
 
+    private final BrandRepository brandRepository;
+
     @Autowired
-    public ProductsController(ProductService productService, CategoryRepository categoryRepository) {
+    public ProductsController(ProductService productService, CategoryRepository categoryRepository,
+                              BrandRepository brandRepository) {
         this.productService = productService;
         this.categoryRepository = categoryRepository;
+        this.brandRepository = brandRepository;
     }
 
     @GetMapping("/products")
@@ -43,6 +48,7 @@ public class ProductsController {
         model.addAttribute("activePage", "Products");
         model.addAttribute("product", productService.findById(id).orElseThrow(NotFoundException::new));
         model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("brands", brandRepository.findAll());
         return "product_form";
     }
 
@@ -59,6 +65,7 @@ public class ProductsController {
         model.addAttribute("activePage", "Products");
         model.addAttribute("product", new ProductRepr());
         model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("brands", brandRepository.findAll());
         return "product_form";
     }
 

@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.Formatter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.geekbrains.model.Brand;
 import ru.geekbrains.model.Category;
 import ru.geekbrains.model.Role;
+import ru.geekbrains.repo.BrandRepository;
 import ru.geekbrains.repo.CategoryRepository;
 import ru.geekbrains.repo.RoleRepository;
 
@@ -62,6 +64,26 @@ public class WebMvcConfig implements WebMvcConfigurer {
             @Override
             public String print(Category cat, Locale locale) {
                 return cat.getId().toString();
+            }
+        };
+    }
+
+    @Bean
+    public Formatter<Brand> brandFormatter() {
+        return new Formatter<Brand>() {
+
+            @Autowired
+            private BrandRepository repository;
+
+            @Override
+            public Brand parse(String id, Locale locale) throws ParseException {
+                return repository.findById(Long.parseLong(id))
+                        .orElseThrow(() -> new ParseException("No Brand with id " + id, 0));
+            }
+
+            @Override
+            public String print(Brand brand, Locale locale) {
+                return brand.getId().toString();
             }
         };
     }

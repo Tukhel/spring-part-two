@@ -1,12 +1,15 @@
 package ru.geekbrains.controllers.repr;
 
 import org.springframework.web.multipart.MultipartFile;
+import ru.geekbrains.model.Brand;
 import ru.geekbrains.model.Category;
 import ru.geekbrains.model.Product;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ProductRepr implements Serializable {
 
@@ -18,6 +21,10 @@ public class ProductRepr implements Serializable {
 
     private Category category;
 
+    private Brand brand;
+
+    private List<PictureRepr> pictures;
+
     private MultipartFile[] newPictures;
 
     public ProductRepr() {
@@ -28,6 +35,10 @@ public class ProductRepr implements Serializable {
         this.name = product.getName();
         this.price = product.getPrice();
         this.category = product.getCategory();
+        this.brand = product.getBrand();
+        this.pictures = product.getPictures().stream()
+                .map(PictureRepr::new)
+                .collect(Collectors.toList());
     }
 
     public Long getId() {
@@ -60,6 +71,30 @@ public class ProductRepr implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public List<PictureRepr> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<PictureRepr> pictures) {
+        this.pictures = pictures;
+    }
+
+    public MultipartFile[] getNewPictures() {
+        return newPictures;
+    }
+
+    public void setNewPictures(MultipartFile[] newPictures) {
+        this.newPictures = newPictures;
     }
 
     @Override

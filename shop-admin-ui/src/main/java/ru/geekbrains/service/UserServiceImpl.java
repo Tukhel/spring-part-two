@@ -5,6 +5,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.controllers.repr.UserRepr;
+import ru.geekbrains.model.User;
+import ru.geekbrains.repo.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
